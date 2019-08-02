@@ -1,0 +1,27 @@
+项目本身访问的静态页面为：static下面的静态页面   localhost:8080自动访问里面的静态页面
+        如果想访问public里面的静态页面则需要删除static里面的静态页面--优先级低
+
+
+遇到的错误就是：
+    当引入thymeleaf的时候一定要记得项目中进行设置file-setting-Builder-maven（选择自己的maven）
+    如果controller里面方法指明 @RequestMapping("/login")这种而不是
+     @RequestMapping("/")，则访问localhost:8080还是static里面的静态页面
+
+
+     如果添加了下面的配置类/*extends WebMvcConfigurationSupport */则静态资源就不能被访问
+     而且registry.addViewController("atguigu").setViewName("index");这里面的index静态页面
+     只能是templates里面的文件名。
+     controller里面的能够访问
+     @Configuration
+     public class MyMvcConfig extends WebMvcConfigurationSupport {
+
+
+         @Override
+         public void addViewControllers(ViewControllerRegistry registry) {
+     //        super.addViewControllers(registry);
+     //        访问连接atguigu跳转到success页面
+             registry.addViewController("atguigu").setViewName("index");
+         }
+
+
+        如果配置类继承 extends WebMvcConfigurerAdapter则静态网页还是可以访问的。
